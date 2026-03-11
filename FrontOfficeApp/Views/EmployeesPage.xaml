@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FrontOfficeApp.Views.EmployeesPage"
+             Title="Employees">
+    <Grid Padding="16" RowDefinitions="Auto,Auto,*" RowSpacing="10">
+        <HorizontalStackLayout>
+            <Entry Placeholder="Search employee" WidthRequest="260" Text="{Binding SearchText}" />
+            <Button Text="Search" Command="{Binding LoadCommand}" />
+        </HorizontalStackLayout>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*,*" ColumnSpacing="8">
+            <Entry Placeholder="Name" Text="{Binding SelectedEmployee.Name}" />
+            <Entry Grid.Column="1" Placeholder="Department" Text="{Binding SelectedEmployee.Department}" />
+            <Entry Grid.Column="2" Placeholder="Designation" Text="{Binding SelectedEmployee.Designation}" />
+            <Entry Grid.Column="3" Placeholder="Phone" Text="{Binding SelectedEmployee.Phone}" />
+            <Button Grid.Column="4" Text="Add/Update" Command="{Binding SaveCommand}" />
+        </Grid>
+
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Employees}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="70,*,*,*,*,Auto" Padding="0,6">
+                        <Label Text="{Binding EmployeeID}" />
+                        <Label Grid.Column="1" Text="{Binding Name}" />
+                        <Label Grid.Column="2" Text="{Binding Department}" />
+                        <Label Grid.Column="3" Text="{Binding Designation}" />
+                        <Label Grid.Column="4" Text="{Binding Email}" />
+                        <Button Grid.Column="5" Text="Delete" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}" CommandParameter="{Binding .}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

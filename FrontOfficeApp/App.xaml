@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FrontOfficeApp.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Primary">#2563EB</Color>
+            <Color x:Key="Surface">#F8FAFC</Color>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="#0F172A"/>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
