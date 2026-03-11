@@ -1,0 +1,47 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FrontOfficeERP.Views.DashboardPage"
+             Title="Front Office ERP">
+
+    <Grid ColumnDefinitions="200,*">
+        <VerticalStackLayout BackgroundColor="#2C3E50" Padding="10" Spacing="8">
+            <Label Text="Front Office ERP" TextColor="White" FontAttributes="Bold" FontSize="20" />
+            <Button Text="Dashboard" />
+            <Button Text="Employees" />
+            <Button Text="Duty Roster" />
+            <Button Text="Attendance" />
+            <Button Text="Visitors" />
+            <Button Text="Excel Compare" />
+            <Button Text="Reports" />
+            <Button Text="Settings" />
+            <Label Text="Developed by Chetan" TextColor="#D5DBDB" VerticalOptions="EndAndExpand" />
+        </VerticalStackLayout>
+
+        <ScrollView Grid.Column="1" Padding="20">
+            <VerticalStackLayout Spacing="12">
+                <Label Text="Dashboard" FontSize="30" FontAttributes="Bold" />
+
+                <Frame>
+                    <VerticalStackLayout>
+                        <Label Text="Employees" />
+                        <Label Text="45" FontSize="28" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame>
+                    <VerticalStackLayout>
+                        <Label Text="Visitors Today" />
+                        <Label Text="6" FontSize="28" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame>
+                    <VerticalStackLayout>
+                        <Label Text="Today's Roster" />
+                        <Label Text="32" FontSize="28" />
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
