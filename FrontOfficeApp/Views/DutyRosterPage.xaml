@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FrontOfficeApp.Views.DutyRosterPage"
+             Title="Duty Roster">
+    <Grid Padding="16" RowDefinitions="Auto,Auto,*">
+        <HorizontalStackLayout Spacing="8">
+            <DatePicker Date="{Binding StartDate}" />
+            <DatePicker Date="{Binding EndDate}" />
+            <Button Text="Load" Command="{Binding LoadCommand}" />
+            <Button Text="Auto Shift Rotation" Command="{Binding AutoRotateCommand}" />
+        </HorizontalStackLayout>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*" ColumnSpacing="8" Margin="0,8,0,8">
+            <Entry Placeholder="Employee ID" Text="{Binding SelectedRoster.EmployeeID}" Keyboard="Numeric" />
+            <DatePicker Grid.Column="1" Date="{Binding SelectedRoster.Date}" />
+            <Picker Grid.Column="2" Title="Shift" SelectedItem="{Binding SelectedRoster.ShiftType}">
+                <x:String>Morning</x:String><x:String>Evening</x:String><x:String>Night</x:String><x:String>Off</x:String>
+            </Picker>
+            <Button Grid.Column="3" Text="Assign Shift" Command="{Binding SaveCommand}" />
+        </Grid>
+
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Rosters}">
+            <CollectionView.Header>
+                <Grid ColumnDefinitions="*,*,*,*"><Label Text="Employee"/><Label Grid.Column="1" Text="Date"/><Label Grid.Column="2" Text="Shift"/><Label Grid.Column="3" Text="Department"/></Grid>
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="*,*,*,*" Padding="0,6">
+                        <Label Text="{Binding Employee.Name}" />
+                        <Label Grid.Column="1" Text="{Binding Date, StringFormat='{0:yyyy-MM-dd}'}" />
+                        <Label Grid.Column="2" Text="{Binding ShiftType}" />
+                        <Label Grid.Column="3" Text="{Binding Department}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

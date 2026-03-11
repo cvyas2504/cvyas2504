@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FrontOfficeApp.Views.DashboardPage"
+             Title="Dashboard">
+    <Grid ColumnDefinitions="220,*" BackgroundColor="#F1F5F9">
+        <VerticalStackLayout Grid.Column="0" Padding="20" BackgroundColor="#0F172A" Spacing="10">
+            <Label Text="Front Office" FontSize="24" FontAttributes="Bold" TextColor="White" />
+            <Button Text="Dashboard" Command="{Binding LoadCommand}" />
+            <Button Text="Excel Compare" Command="{Binding NavigateCommand}" CommandParameter="excel" />
+            <Button Text="Employees" Command="{Binding NavigateCommand}" CommandParameter="employees" />
+            <Button Text="Duty Roster" Command="{Binding NavigateCommand}" CommandParameter="roster" />
+            <Button Text="Reports" Command="{Binding NavigateCommand}" CommandParameter="reports" />
+            <Button Text="Settings" Command="{Binding NavigateCommand}" CommandParameter="settings" />
+            <Button Text="Logout" Command="{Binding LogoutCommand}" />
+        </VerticalStackLayout>
+
+        <ScrollView Grid.Column="1">
+            <Grid Padding="20" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="16">
+                <Frame Grid.Row="0" Grid.Column="0"><VerticalStackLayout><Label Text="Total Employees"/><Label Text="{Binding TotalEmployees}" FontSize="28" FontAttributes="Bold"/></VerticalStackLayout></Frame>
+                <Frame Grid.Row="0" Grid.Column="1"><VerticalStackLayout><Label Text="Today's Duty Schedule"/><Label Text="{Binding TodaysDutySchedule}" FontSize="28" FontAttributes="Bold"/></VerticalStackLayout></Frame>
+                <Frame Grid.Row="1" Grid.Column="0"><VerticalStackLayout><Label Text="Excel Comparisons Today"/><Label Text="{Binding ExcelComparisonsToday}" FontSize="28" FontAttributes="Bold"/></VerticalStackLayout></Frame>
+                <Frame Grid.Row="1" Grid.Column="1"><VerticalStackLayout><Label Text="Weekly Reports"/><Label Text="{Binding WeeklyReports}" FontSize="22" FontAttributes="Bold"/></VerticalStackLayout></Frame>
+                <Frame Grid.Row="2" Grid.ColumnSpan="2"><VerticalStackLayout><Label Text="System Notifications"/><Label Text="{Binding SystemNotifications}"/></VerticalStackLayout></Frame>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentPage>

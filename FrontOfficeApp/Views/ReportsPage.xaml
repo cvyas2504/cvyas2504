@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FrontOfficeApp.Views.ReportsPage"
+             Title="Reports">
+    <VerticalStackLayout Padding="16" Spacing="8">
+        <Label Text="Reports Module" FontSize="22" FontAttributes="Bold" />
+        <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="8">
+            <DatePicker />
+            <Entry Grid.Column="1" Placeholder="Department" />
+            <Entry Grid.Column="2" Placeholder="Employee" />
+            <Picker Grid.Column="3" Title="Match Status"><x:String>All</x:String><x:String>Exact</x:String><x:String>Missing</x:String></Picker>
+        </Grid>
+        <HorizontalStackLayout>
+            <Button Text="Export Excel" />
+            <Button Text="Export PDF" />
+            <Button Text="Export CSV" />
+        </HorizontalStackLayout>
+        <CollectionView ItemsSource="{Binding Reports}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="*,*,*" Padding="0,6">
+                        <Label Text="{Binding ReportType}" />
+                        <Label Grid.Column="1" Text="{Binding CreatedBy}" />
+                        <Label Grid.Column="2" Text="{Binding CreatedDate, StringFormat='{0:yyyy-MM-dd HH:mm}'}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
