@@ -9,9 +9,11 @@
     <ApplicationId>com.company.frontofficeerp</ApplicationId>
     <OutputType>Exe</OutputType>
     <MauiVersion>10.0.0-preview.1</MauiVersion>
+    <WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.0-preview.1.25122.6" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
     <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="EPPlus" Version="7.4.0" />
