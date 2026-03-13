@@ -6,16 +6,24 @@ using FrontOfficeApp.Services;
 
 namespace FrontOfficeApp.ViewModels;
 
-public partial class EmployeesViewModel(IEmployeeService employeeService, ISessionService sessionService) : BaseViewModel
+public partial class EmployeesViewModel(IEmployeeService employeeService, IAuthorizationService authorizationService) : BaseViewModel
 {
     [ObservableProperty] private string searchText = string.Empty;
     [ObservableProperty] private Employee selectedEmployee = new();
+    [ObservableProperty] private bool canCreate;
+    [ObservableProperty] private bool canDelete;
+    [ObservableProperty] private bool canExport;
+
     public ObservableCollection<Employee> Employees { get; } = new();
-    public bool IsAdmin => sessionService.CurrentUser?.Role == UserRole.Admin;
 
     [RelayCommand]
     public async Task LoadAsync()
     {
+        var permission = await authorizationService.GetPermissionAsync(ModuleType.Employee);
+        CanCreate = permission?.CanCreate == true;
+        CanDelete = permission?.CanDelete == true;
+        CanExport = permission?.CanExport == true;
+
         Employees.Clear();
         var list = await employeeService.GetAsync(SearchText);
         foreach (var employee in list) Employees.Add(employee);
@@ -24,7 +32,7 @@ public partial class EmployeesViewModel(IEmployeeService employeeService, ISessi
     [RelayCommand]
     public async Task SaveAsync()
     {
-        if (!IsAdmin) return;
+        if (!CanCreate) return;
         await employeeService.SaveAsync(SelectedEmployee);
         SelectedEmployee = new Employee();
         await LoadAsync();
@@ -33,7 +41,7 @@ public partial class EmployeesViewModel(IEmployeeService employeeService, ISessi
     [RelayCommand]
     public async Task DeleteAsync(Employee employee)
     {
-        if (!IsAdmin) return;
+        if (!CanDelete) return;
         await employeeService.DeleteAsync(employee.EmployeeID);
         await LoadAsync();
     }

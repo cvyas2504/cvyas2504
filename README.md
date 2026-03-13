@@ -1,49 +1,46 @@
-# Front Office Management Desktop Application (.NET MAUI, .NET 10)
+# Front Office ERP (Windows Desktop, .NET MAUI + .NET 10)
 
-A modern front office management app built with **.NET MAUI** and **MVVM**, including:
+Front Office ERP starter solution built with **.NET MAUI**, **MVVM**, and **SQL Server**.
 
-- Secure role-based login (Admin / Manager / Front Office User)
-- Dashboard with office KPIs and quick navigation
-- Excel comparison module (exact, partial, missing, duplicate detection)
-- Employee management
-- Duty roster management with auto shift rotation
-- Reporting and export to Excel/PDF
-- SQLite persistence through EF Core
+## Implemented architecture
 
-## Tech Stack
+- Windows-first MAUI target (`net10.0-windows10.0.19041.0`) with layered services.
+- Entity Framework Core with SQL Server provider.
+- Authentication with password hashing and active-user check.
+- Role-Based Access Control (RBAC) with `Roles` + `Permissions` tables.
+- Module-level visibility in dashboard navigation based on role permissions.
+- Async employee, roster, and excel comparison operations.
+- Pagination support for employee listing service.
 
-- .NET 10 (targeted)
-- .NET MAUI UI
+## Modules included
+
+1. Authentication & User Management (seeded admin/manager/operator users)
+2. Employee Management
+3. Duty Roster (shift codes G/M/E/N/O, auto-rotation, copy previous month)
+4. Excel Compare (`.xlsx`, `.csv` with export to Excel/CSV/PDF)
+5. Reports export service
+6. Dashboard KPIs (employee total + shift counts)
+
+## Database entities
+
+- Users
+- Roles
+- Permissions
+- Employees
+- DutyRoster
+- ExcelCompareResults
+- Reports
+
+## Main libraries
+
 - CommunityToolkit.Mvvm
-- ClosedXML for Excel processing/export
-- iText7 for PDF export
-- EF Core + SQLite database
+- EPPlus
+- CsvHelper
+- iText7
+- EF Core SQL Server
 
-## Default Seeded Users
+## Seeded credentials
 
-- `admin / Admin@123` (Admin)
-- `manager / Manager@123` (Manager)
-- `frontdesk / Front@123` (Front Office User)
-
-## Architecture
-
-- MVVM with feature-specific ViewModels
-- Service layer for business/domain logic
-- EF Core DbContext for data operations
-- Async commands and operations to avoid UI freezing during large file processing
-
-## Main Modules
-
-- **Login & Role Management**
-- **Dashboard**
-- **Excel Compare**
-- **Employees**
-- **Duty Roster**
-- **Reports**
-- **Settings**
-
-## Notes
-
-- Excel compare is designed for high-volume rows and processes data asynchronously.
-- Passwords are hashed (SHA-256 in this baseline implementation).
-- The app stores all operational data in local SQLite.
+- `admin / Admin@123`
+- `manager / Manager@123`
+- `operator / Operator@123`

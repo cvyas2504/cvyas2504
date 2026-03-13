@@ -14,8 +14,8 @@
         <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*" ColumnSpacing="8" Margin="0,8,0,8">
             <Entry Placeholder="Employee ID" Text="{Binding SelectedRoster.EmployeeID}" Keyboard="Numeric" />
             <DatePicker Grid.Column="1" Date="{Binding SelectedRoster.Date}" />
-            <Picker Grid.Column="2" Title="Shift" SelectedItem="{Binding SelectedRoster.ShiftType}">
-                <x:String>Morning</x:String><x:String>Evening</x:String><x:String>Night</x:String><x:String>Off</x:String>
+            <Picker Grid.Column="2" Title="Shift" SelectedItem="{Binding SelectedDutyType}">
+                <x:String>G</x:String><x:String>M</x:String><x:String>E</x:String><x:String>N</x:String><x:String>O</x:String>
             </Picker>
             <Button Grid.Column="3" Text="Assign Shift" Command="{Binding SaveCommand}" />
         </Grid>
@@ -27,9 +27,9 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid ColumnDefinitions="*,*,*,*" Padding="0,6">
-                        <Label Text="{Binding Employee.Name}" />
+                        <Label Text="{Binding Employee.EmployeeName}" />
                         <Label Grid.Column="1" Text="{Binding Date, StringFormat='{0:yyyy-MM-dd}'}" />
-                        <Label Grid.Column="2" Text="{Binding ShiftType}" />
+                        <Label Grid.Column="2" Text="{Binding DutyType}" />
                         <Label Grid.Column="3" Text="{Binding Department}" />
                     </Grid>
                 </DataTemplate>

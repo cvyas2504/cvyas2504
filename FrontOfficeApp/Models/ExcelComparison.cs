@@ -4,13 +4,10 @@ namespace FrontOfficeApp.Models;
 
 public class ExcelComparison
 {
-    [Key] public int ComparisonID { get; set; }
-    public int UserID { get; set; }
-    public string ReferenceFile { get; set; } = string.Empty;
-    public string DataFile { get; set; } = string.Empty;
-    public int TotalRecords { get; set; }
-    public int Matched { get; set; }
-    public int Mismatch { get; set; }
-    public int Missing { get; set; }
-    public DateTime Date { get; set; } = DateTime.UtcNow;
+    [Key] public int CompareID { get; set; }
+    public string KeyValue { get; set; } = string.Empty;
+    public string File1Value { get; set; } = string.Empty;
+    public string File2Value { get; set; } = string.Empty;
+    public MatchStatus Status { get; set; }
+    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 }

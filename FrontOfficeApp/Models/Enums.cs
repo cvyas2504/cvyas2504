@@ -1,5 +1,37 @@
 namespace FrontOfficeApp.Models;
 
-public enum UserRole { Admin, Manager, FrontOfficeUser }
-public enum ShiftType { Morning, Evening, Night, Off }
-public enum MatchStatus { Exact, Partial, Missing, Duplicate, Mismatch }
+public enum UserRole
+{
+    Admin,
+    Manager,
+    Operator,
+    Viewer
+}
+
+public enum ModuleType
+{
+    Dashboard,
+    Employee,
+    DutyRoster,
+    ExcelCompare,
+    Reports,
+    UserManagement
+}
+
+public enum ShiftType
+{
+    G,
+    M,
+    E,
+    N,
+    O
+}
+
+public enum MatchStatus
+{
+    Match,
+    Difference,
+    MissingInFile1,
+    MissingInFile2,
+    Mismatch
+}

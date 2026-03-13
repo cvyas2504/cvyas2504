@@ -1,23 +1,39 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FrontOfficeApp.Models;
 using FrontOfficeApp.Services;
 
 namespace FrontOfficeApp.ViewModels;
 
-public partial class DashboardViewModel(IEmployeeService employeeService, IDutyRosterService rosterService, ISessionService sessionService, IAuthService authService) : BaseViewModel
+public partial class DashboardViewModel(IEmployeeService employeeService, IDutyRosterService rosterService, IAuthorizationService authorizationService, IAuthService authService) : BaseViewModel
 {
     [ObservableProperty] private int totalEmployees;
-    [ObservableProperty] private int todaysDutySchedule;
-    [ObservableProperty] private int excelComparisonsToday;
-    [ObservableProperty] private string weeklyReports = "0";
-    [ObservableProperty] private string systemNotifications = "All systems healthy";
+    [ObservableProperty] private int morningShiftCount;
+    [ObservableProperty] private int eveningShiftCount;
+    [ObservableProperty] private int nightShiftCount;
+    [ObservableProperty] private int offCount;
+
+    [ObservableProperty] private bool canViewEmployees;
+    [ObservableProperty] private bool canViewRoster;
+    [ObservableProperty] private bool canViewExcel;
+    [ObservableProperty] private bool canViewReports;
 
     [RelayCommand]
     private async Task LoadAsync()
     {
         var employees = await employeeService.GetAsync();
         TotalEmployees = employees.Count;
-        TodaysDutySchedule = (await rosterService.GetByRangeAsync(DateTime.Today, DateTime.Today)).Count;
+
+        var today = await rosterService.GetByRangeAsync(DateTime.Today, DateTime.Today);
+        MorningShiftCount = today.Count(x => x.DutyType == ShiftType.M);
+        EveningShiftCount = today.Count(x => x.DutyType == ShiftType.E);
+        NightShiftCount = today.Count(x => x.DutyType == ShiftType.N);
+        OffCount = today.Count(x => x.DutyType == ShiftType.O);
+
+        CanViewEmployees = await authorizationService.CanViewAsync(ModuleType.Employee);
+        CanViewRoster = await authorizationService.CanViewAsync(ModuleType.DutyRoster);
+        CanViewExcel = await authorizationService.CanViewAsync(ModuleType.ExcelCompare);
+        CanViewReports = await authorizationService.CanViewAsync(ModuleType.Reports);
     }
 
     [RelayCommand]
@@ -29,6 +45,4 @@ public partial class DashboardViewModel(IEmployeeService employeeService, IDutyR
         await authService.LogoutAsync();
         await Shell.Current.GoToAsync("//login");
     }
-
-    public bool CanManageUsers => sessionService.CurrentUser?.Role == Models.UserRole.Admin;
 }
