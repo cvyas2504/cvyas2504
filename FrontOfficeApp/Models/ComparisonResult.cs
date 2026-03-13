@@ -2,10 +2,10 @@ namespace FrontOfficeApp.Models;
 
 public class ComparisonResult
 {
-    public string ReferenceValue { get; set; } = string.Empty;
-    public string DataValue { get; set; } = string.Empty;
-    public MatchStatus MatchStatus { get; set; }
-    public string Remarks { get; set; } = string.Empty;
+    public string Key { get; set; } = string.Empty;
+    public string File1Value { get; set; } = string.Empty;
+    public string File2Value { get; set; } = string.Empty;
+    public MatchStatus Status { get; set; }
 }
 
 public class ComparisonSummary
@@ -13,5 +13,6 @@ public class ComparisonSummary
     public int TotalRecords { get; set; }
     public int Matched { get; set; }
     public int Mismatch { get; set; }
-    public int Missing { get; set; }
+    public int MissingInFile1 { get; set; }
+    public int MissingInFile2 { get; set; }
 }

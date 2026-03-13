@@ -10,7 +10,8 @@ public partial class DutyRosterViewModel(IDutyRosterService rosterService, IEmpl
 {
     [ObservableProperty] private DateTime startDate = DateTime.Today;
     [ObservableProperty] private DateTime endDate = DateTime.Today.AddDays(7);
-    [ObservableProperty] private DutyRoster selectedRoster = new() { Date = DateTime.Today, ShiftType = ShiftType.Morning };
+    [ObservableProperty] private string selectedDutyType = nameof(ShiftType.G);
+    [ObservableProperty] private DutyRoster selectedRoster = new() { DutyDate = DateTime.Today, DutyType = ShiftType.G };
     public ObservableCollection<DutyRoster> Rosters { get; } = new();
 
     [RelayCommand]
@@ -24,8 +25,11 @@ public partial class DutyRosterViewModel(IDutyRosterService rosterService, IEmpl
     [RelayCommand]
     private async Task SaveAsync()
     {
+        if (Enum.TryParse<ShiftType>(SelectedDutyType, out var duty))
+            SelectedRoster.DutyType = duty;
+
         await rosterService.SaveAsync(SelectedRoster);
-        SelectedRoster = new DutyRoster { Date = DateTime.Today };
+        SelectedRoster = new DutyRoster { DutyDate = DateTime.Today, DutyType = ShiftType.G };
         await LoadAsync();
     }
 

@@ -9,12 +9,13 @@
             <Button Text="Search" Command="{Binding LoadCommand}" />
         </HorizontalStackLayout>
 
-        <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*,*" ColumnSpacing="8">
-            <Entry Placeholder="Name" Text="{Binding SelectedEmployee.Name}" />
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*,*,*" ColumnSpacing="8">
+            <Entry Placeholder="Name" Text="{Binding SelectedEmployee.EmployeeName}" />
             <Entry Grid.Column="1" Placeholder="Department" Text="{Binding SelectedEmployee.Department}" />
             <Entry Grid.Column="2" Placeholder="Designation" Text="{Binding SelectedEmployee.Designation}" />
             <Entry Grid.Column="3" Placeholder="Phone" Text="{Binding SelectedEmployee.Phone}" />
-            <Button Grid.Column="4" Text="Add/Update" Command="{Binding SaveCommand}" />
+            <Entry Grid.Column="4" Placeholder="Email" Text="{Binding SelectedEmployee.Email}" />
+            <Button Grid.Column="5" Text="Add/Update" IsVisible="{Binding CanCreate}" Command="{Binding SaveCommand}" />
         </Grid>
 
         <CollectionView Grid.Row="2" ItemsSource="{Binding Employees}">
@@ -22,11 +23,11 @@
                 <DataTemplate>
                     <Grid ColumnDefinitions="70,*,*,*,*,Auto" Padding="0,6">
                         <Label Text="{Binding EmployeeID}" />
-                        <Label Grid.Column="1" Text="{Binding Name}" />
+                        <Label Grid.Column="1" Text="{Binding EmployeeName}" />
                         <Label Grid.Column="2" Text="{Binding Department}" />
                         <Label Grid.Column="3" Text="{Binding Designation}" />
                         <Label Grid.Column="4" Text="{Binding Email}" />
-                        <Button Grid.Column="5" Text="Delete" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}" CommandParameter="{Binding .}" />
+                        <Button Grid.Column="5" IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CanDelete}" Text="Delete" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}" CommandParameter="{Binding .}" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

@@ -5,10 +5,10 @@
              Title="Excel Compare">
     <Grid Padding="16" RowDefinitions="Auto,*,Auto">
         <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto" ColumnSpacing="12" RowSpacing="8">
-            <Entry Grid.Row="0" Placeholder="Reference file" Text="{Binding ReferenceFile}" />
-            <Button Grid.Row="0" Grid.Column="1" Text="Upload" Command="{Binding PickReferenceCommand}" />
-            <Entry Grid.Row="1" Placeholder="Data file" Text="{Binding DataFile}" />
-            <Button Grid.Row="1" Grid.Column="1" Text="Upload" Command="{Binding PickDataCommand}" />
+            <Entry Grid.Row="0" Placeholder="File 1" Text="{Binding File1Path}" />
+            <Button Grid.Row="0" Grid.Column="1" Text="Upload" Command="{Binding PickFile1Command}" />
+            <Entry Grid.Row="1" Placeholder="File 2" Text="{Binding File2Path}" />
+            <Button Grid.Row="1" Grid.Column="1" Text="Upload" Command="{Binding PickFile2Command}" />
             <HorizontalStackLayout Grid.Row="2" Grid.ColumnSpan="2" Spacing="10">
                 <Entry Placeholder="Match Column (1-based)" Keyboard="Numeric" Text="{Binding SelectedColumn}" WidthRequest="160" />
                 <Button Text="Start Comparison" Command="{Binding CompareCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
@@ -17,29 +17,28 @@
 
         <CollectionView Grid.Row="1" ItemsSource="{Binding Results}" Margin="0,16,0,16">
             <CollectionView.Header>
-                <Grid ColumnDefinitions="*,*,Auto,*"><Label Text="Reference"/><Label Grid.Column="1" Text="Data"/><Label Grid.Column="2" Text="Status"/><Label Grid.Column="3" Text="Remarks"/></Grid>
+                <Grid ColumnDefinitions="*,*,*,*"><Label Text="Key"/><Label Grid.Column="1" Text="File1"/><Label Grid.Column="2" Text="File2"/><Label Grid.Column="3" Text="Status"/></Grid>
             </CollectionView.Header>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="*,*,Auto,*" Padding="0,6">
-                        <Label Text="{Binding ReferenceValue}" />
-                        <Label Grid.Column="1" Text="{Binding DataValue}" />
-                        <Label Grid.Column="2" Text="{Binding MatchStatus}" />
-                        <Label Grid.Column="3" Text="{Binding Remarks}" />
+                    <Grid ColumnDefinitions="*,*,*,*" Padding="0,6">
+                        <Label Text="{Binding Key}" />
+                        <Label Grid.Column="1" Text="{Binding File1Value}" />
+                        <Label Grid.Column="2" Text="{Binding File2Value}" />
+                        <Label Grid.Column="3" Text="{Binding Status}" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Frame Grid.Row="2" IsVisible="{Binding ShowSummary}" BorderColor="#94A3B8">
+        <Frame Grid.Row="2" BorderColor="#94A3B8">
             <VerticalStackLayout>
                 <Label Text="Comparison Summary" FontAttributes="Bold" FontSize="18" />
                 <Label Text="{Binding SummaryText}" />
                 <HorizontalStackLayout>
-                    <Button Text="View Detailed Report" />
                     <Button Text="Export Excel" Command="{Binding ExportExcelCommand}" />
+                    <Button Text="Export CSV" Command="{Binding ExportCsvCommand}" />
                     <Button Text="Export PDF" Command="{Binding ExportPdfCommand}" />
-                    <Button Text="Close" Command="{Binding CompareCommand}" IsVisible="False" />
                 </HorizontalStackLayout>
             </VerticalStackLayout>
         </Frame>

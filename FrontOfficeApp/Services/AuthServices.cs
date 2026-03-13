@@ -37,6 +37,23 @@ public class SessionService : ISessionService
     public void End() => CurrentUser = null;
 }
 
+public interface IAuthorizationService
+{
+    Task<Permission?> GetPermissionAsync(ModuleType module);
+    Task<bool> CanViewAsync(ModuleType module);
+}
+
+public class AuthorizationService(AppDbContext db, ISessionService sessionService) : IAuthorizationService
+{
+    public Task<Permission?> GetPermissionAsync(ModuleType module)
+    {
+        var roleId = sessionService.CurrentUser?.RoleID ?? 0;
+        return db.Permissions.FirstOrDefaultAsync(p => p.RoleID == roleId && p.Module == module);
+    }
+
+    public async Task<bool> CanViewAsync(ModuleType module) => (await GetPermissionAsync(module))?.CanView == true;
+}
+
 public interface IAuthService
 {
     Task<User?> LoginAsync(string username, string password);
@@ -50,14 +67,17 @@ public class AuthService(AppDbContext db, IPasswordHasher hasher, ISessionServic
 {
     public async Task<User?> LoginAsync(string username, string password)
     {
-        var user = await db.Users.FirstOrDefaultAsync(u => u.Username == username);
+        var user = await db.Users
+            .Include(u => u.Role)
+            .FirstOrDefaultAsync(u => u.Username == username && u.IsActive);
+
         if (user is null || !hasher.Verify(password, user.PasswordHash)) return null;
         session.Start(user);
         return user;
     }
 
     public Task LogoutAsync() { session.End(); return Task.CompletedTask; }
-    public Task<List<User>> GetUsersAsync() => db.Users.OrderBy(x => x.Username).ToListAsync();
+    public Task<List<User>> GetUsersAsync() => db.Users.Include(x => x.Role).OrderBy(x => x.Username).ToListAsync();
 
     public async Task SaveUserAsync(User user, string? plainPassword = null)
     {
