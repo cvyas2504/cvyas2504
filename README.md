@@ -44,3 +44,7 @@ Front Office ERP starter solution built with **.NET MAUI**, **MVVM**, and **SQL 
 - `admin / Admin@123`
 - `manager / Manager@123`
 - `operator / Operator@123`
+
+## Architecture Blueprint
+
+See `ARCHITECTURE_BLUEPRINT.md` for the complete enterprise architecture, schema, and implementation design.
