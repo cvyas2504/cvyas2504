@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FrontOfficeApp.Views.SettingsPage"
              Title="Settings">
-    <VerticalStackLayout Padding="20">
-        <Label Text="Settings" FontSize="22" FontAttributes="Bold" />
-        <Label Text="Configure roles, session timeout, and application preferences." />
-    </VerticalStackLayout>
+    <Grid Padding="20" RowDefinitions="*,Auto">
+        <VerticalStackLayout Grid.Row="0">
+            <Label Text="Settings" FontSize="22" FontAttributes="Bold" />
+            <Label Text="Configure roles, session timeout, and application preferences." />
+        </VerticalStackLayout>
+
+        <Label Grid.Row="1" Style="{StaticResource FooterLabelStyle}" />
+    </Grid>
 </ContentPage>
