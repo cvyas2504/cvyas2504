@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FrontOfficeApp.Views.EmployeesPage"
              Title="Employees">
-    <Grid Padding="16" RowDefinitions="Auto,Auto,*" RowSpacing="10">
+    <Grid Padding="16" RowDefinitions="Auto,Auto,*,Auto" RowSpacing="10">
         <HorizontalStackLayout>
             <Entry Placeholder="Search employee" WidthRequest="260" Text="{Binding SearchText}" />
             <Button Text="Search" Command="{Binding LoadCommand}" />
@@ -32,5 +32,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        <Label Grid.Row="3" Style="{StaticResource FooterLabelStyle}" />
     </Grid>
 </ContentPage>

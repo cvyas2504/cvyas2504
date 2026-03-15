@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FrontOfficeApp.Views.DutyRosterPage"
              Title="Duty Roster">
-    <Grid Padding="16" RowDefinitions="Auto,Auto,*">
+    <Grid Padding="16" RowDefinitions="Auto,Auto,*,Auto">
         <HorizontalStackLayout Spacing="8">
             <DatePicker Date="{Binding StartDate}" />
             <DatePicker Date="{Binding EndDate}" />
@@ -35,5 +35,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        <Label Grid.Row="3" Style="{StaticResource FooterLabelStyle}" />
     </Grid>
 </ContentPage>

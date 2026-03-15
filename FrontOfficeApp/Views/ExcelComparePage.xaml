@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FrontOfficeApp.Views.ExcelComparePage"
              Title="Excel Compare">
-    <Grid Padding="16" RowDefinitions="Auto,*,Auto">
+    <Grid Padding="16" RowDefinitions="Auto,*,Auto,Auto">
         <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto" ColumnSpacing="12" RowSpacing="8">
             <Entry Grid.Row="0" Placeholder="File 1" Text="{Binding File1Path}" />
             <Button Grid.Row="0" Grid.Column="1" Text="Upload" Command="{Binding PickFile1Command}" />
@@ -42,5 +42,7 @@
                 </HorizontalStackLayout>
             </VerticalStackLayout>
         </Frame>
+
+        <Label Grid.Row="3" Style="{StaticResource FooterLabelStyle}" />
     </Grid>
 </ContentPage>

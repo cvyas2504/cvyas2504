@@ -4,11 +4,15 @@
              x:Class="FrontOfficeApp.Views.LoginPage"
              Title="Login"
              BackgroundColor="{StaticResource Surface}">
-    <VerticalStackLayout Padding="40" Spacing="12" VerticalOptions="Center" MaximumWidthRequest="420">
-        <Label Text="Front Office Management" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center" />
-        <Entry Placeholder="Username" Text="{Binding Username}" />
-        <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password}" />
-        <Button Text="Login" Command="{Binding LoginCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
-        <Label Text="{Binding ErrorMessage}" TextColor="Red" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="*,Auto" Padding="24">
+        <VerticalStackLayout Grid.Row="0" Spacing="12" VerticalOptions="Center" MaximumWidthRequest="420" HorizontalOptions="Center">
+            <Label Text="Front Office Management" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Entry Placeholder="Username" Text="{Binding Username}" />
+            <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password}" />
+            <Button Text="Login" Command="{Binding LoginCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
+            <Label Text="{Binding ErrorMessage}" TextColor="Red" />
+        </VerticalStackLayout>
+
+        <Label Grid.Row="1" Style="{StaticResource FooterLabelStyle}" />
+    </Grid>
 </ContentPage>

@@ -9,6 +9,13 @@
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="#0F172A"/>
             </Style>
+            <Style x:Key="FooterLabelStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,8,0,6" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="TextColor" Value="#64748B" />
+                <Setter Property="Text" Value="Developed by Chetan" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
