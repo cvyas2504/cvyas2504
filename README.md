@@ -1,40 +1,28 @@
-# FrontOffice ERP (Enterprise Client-Server Blueprint)
+# FrontOffice ERP
 
-This repository now includes a production-style ERP blueprint with:
+FrontOffice ERP is a .NET MAUI desktop starter for enterprise front-office operations, designed with a clean/modular architecture and local SQLite persistence.
 
-- `FrontOfficeApp` - .NET MAUI Desktop Client (MVVM)
-- `FrontOfficeERP.API` - ASP.NET Core Web API backend (layered)
-- `docs/database-schema.sql` - normalized SQL Server schema
-- `docs/FrontOfficeERP-Architecture.md` - architecture and runbook
+## Implemented baseline
 
-## Key capabilities delivered
+- .NET MAUI desktop client (`FrontOfficeApp`)
+- EF Core + SQLite local embedded database
+- Authentication and role/permission model (Admin, Manager, User)
+- Modules:
+  - Excel Compare
+  - Duty Roster Management
+  - Reports
+- Export support in services (PDF, Excel, CSV)
+- Shared page footer:
+  - `Copyright © 2026 Develop By Chetan`
 
-- JWT authentication and role-based authorization
-- Controllers/Services/Repositories/DTOs/Models architecture
-- API logging + centralized exception middleware
-- Duty roster duplicate-shift prevention
-- Excel compare detection (added/removed/modified)
-- Dashboard + About footer text:
-  - Copyright © 2026 Develop By Chetan
+## Documentation
 
-## Suggested Visual Studio solution layout
+- Architecture/runbook: `docs/FrontOfficeERP-Architecture.md`
+- Database schema: `docs/database-schema.sql`
 
-```text
-FrontOfficeERP.API
- ├── Controllers
- ├── Services
- ├── Repositories
- ├── Models
- ├── DTOs
- ├── Middleware
- └── Data
+## Run quickly (Visual Studio 2022)
 
-FrontOfficeERP.Client (implemented as FrontOfficeApp)
- ├── Views
- ├── ViewModels
- ├── Services
- ├── Models
- ├── Utilities
-```
-
-For complete implementation details and startup steps, see `docs/FrontOfficeERP-Architecture.md`.
+1. Open `FrontOfficeApp.sln`.
+2. Set `FrontOfficeApp` as startup project.
+3. Build and run.
+4. Database file is created automatically at app data location.

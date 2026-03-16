@@ -1,121 +1,205 @@
-# FrontOffice ERP - Enterprise Architecture Blueprint
+# FrontOffice ERP - .NET MAUI Desktop Architecture (Clean Architecture + SQLite)
 
-## 1) System Architecture
+This guide defines a **complete starter architecture** for a Visual Studio 2022 solution of **FrontOffice ERP** with local SQLite storage.
 
-FrontOffice ERP is designed as a secure **client-server ERP platform**:
+---
 
-- **Client:** .NET MAUI desktop application (`FrontOfficeApp`) using MVVM.
-- **Server:** ASP.NET Core Web API (`FrontOfficeERP.API`) with layered architecture.
-- **Database:** Microsoft SQL Server with EF Core.
+## 1) Solution Blueprint (Step-by-Step)
 
-### High-level flow
+### Step 1 - Create solution and projects
 
-1. User logs in from MAUI client.
-2. Client sends login request to `POST /api/auth/login`.
-3. API validates user + password hash, issues JWT token.
-4. Client includes bearer token on subsequent calls.
-5. API enforces role policies (`AdminOnly`, `ManagerOrAdmin`) and permission checks.
-6. Data is persisted in SQL Server via EF Core repositories/services.
+Create a Visual Studio 2022 solution named `FrontOfficeERP` with:
 
-## 2) Backend Layering
+```text
+FrontOfficeERP.sln
+├─ FrontOfficeApp                  // .NET MAUI (Windows desktop target)
+├─ FrontOfficeERP.Application      // Use cases, DTOs, interfaces
+├─ FrontOfficeERP.Domain           // Entities, enums, business rules
+├─ FrontOfficeERP.Infrastructure   // EF Core SQLite, repositories, exports, security
+└─ FrontOfficeERP.Tests            // Unit tests for services/use-cases
+```
 
-`FrontOfficeERP.API` is organized into:
+> In this repository, `FrontOfficeApp` is the runnable MAUI project. API pieces can remain optional for future synchronization use-cases, but the target runtime for this blueprint is local desktop + embedded SQLite.
 
-- `Controllers`: HTTP endpoints for auth, users, duty roster, excel compare.
-- `Services`: Business logic and validation.
-- `Repositories`: Data access abstraction.
-- `Models`: EF entities.
-- `DTOs`: Request/response contracts.
-- `Middleware`: API request logging and centralized exception handling.
-- `Data`: `AppDbContext` and mapping constraints.
-- `Auth`: JWT token + password hashing services.
+### Step 2 - Enforce clean architecture dependency direction
 
-## 3) Security Model
+- `Domain` has no dependencies.
+- `Application` depends on `Domain` only.
+- `Infrastructure` depends on `Application` + `Domain`.
+- `FrontOfficeApp` depends on `Application` + `Infrastructure`.
 
-Implemented security controls:
+### Step 3 - Configure local database
 
-- JWT authentication (`Bearer`).
-- Role-based authorization policies.
-- Password hashing via PBKDF2 (API).
-- Request logging middleware.
-- Global exception handling middleware.
-- Duplicate-shift prevention through unique index and service validation.
+Use EF Core with SQLite:
+- Database file: `%LocalAppData%/FrontOfficeERP/frontoffice.db`
+- Migration + seed on first run.
+- Add unique constraints for user names and duty roster assignment (employee + date).
 
-## 4) Client Modules
+### Step 4 - Add authentication and RBAC
 
-Implemented UI modules in MAUI:
+- Login using username/password hash (PBKDF2 or BCrypt).
+- Tables: `Users`, `Roles`, `Permissions`.
+- Module-level action permissions (`CanView`, `CanCreate`, `CanEdit`, `CanDelete`, `CanExport`).
 
-- Login
-- Dashboard
-- User Management
-- Employee Management
-- Duty Roster
+### Step 5 - Build module use-cases
+
 - Excel Compare
-- Reports
-- Settings
-- About
+- Duty Roster Management
+- Reports & Exports (PDF/Excel/CSV)
 
-The dashboard and about include footer text:
+### Step 6 - Compose MAUI UI shell
 
-> Copyright © 2026 Develop By Chetan
+- Left navigation flyout/menu for Dashboard and modules.
+- Responsive desktop-first pages.
+- Shared footer on all pages:  
+  **Copyright © 2026 Develop By Chetan**
 
-## 5) Excel Compare Module (Design)
+---
 
-Comparison strategy used in API service:
+## 2) Recommended FrontOfficeApp folder structure
 
-- Normalize each row to key-value dictionary.
-- Compare by unique business key (`Key` field).
-- Detect:
-  - Added (only in file2)
-  - Removed (only in file1)
-  - Modified (present in both, values differ)
-- Save summary to `ExcelCompareLogs`.
+```text
+FrontOfficeApp/
+├─ App.xaml
+├─ AppShell.xaml
+├─ MauiProgram.cs
+├─ Data/
+│  ├─ AppDbContext.cs
+│  └─ DataSeeder.cs
+├─ Models/
+│  ├─ User.cs
+│  ├─ Employee.cs
+│  ├─ DutyRoster.cs
+│  ├─ ExcelComparison.cs
+│  ├─ Report.cs
+│  └─ Enums.cs
+├─ Services/
+│  ├─ AuthService.cs
+│  ├─ AuthorizationService.cs
+│  ├─ EmployeeService.cs
+│  ├─ DutyRosterService.cs
+│  ├─ ExcelComparisonService.cs
+│  ├─ ReportService.cs
+│  └─ ExportService.cs (recommended)
+├─ ViewModels/
+│  ├─ LoginViewModel.cs
+│  ├─ DashboardViewModel.cs
+│  ├─ ExcelCompareViewModel.cs
+│  ├─ DutyRosterViewModel.cs
+│  ├─ ReportsViewModel.cs
+│  └─ UserManagementViewModel.cs
+└─ Views/
+   ├─ LoginPage.xaml
+   ├─ DashboardPage.xaml
+   ├─ ExcelComparePage.xaml
+   ├─ DutyRosterPage.xaml
+   ├─ ReportsPage.xaml
+   └─ UserManagementPage.xaml
+```
 
-Client can upload and parse Excel using EPPlus/CsvHelper and call compare endpoint.
+---
 
-## 6) Reporting Module (Design)
+## 3) Core module implementation notes
 
-Reports to generate from MAUI service layer:
+## Authentication & user management
 
-- Employee list
-- User list
-- Monthly duty roster
-- Shift summary
-- Excel compare results
+- `AuthService` validates password hash and status (`IsActive`).
+- `AuthorizationService` resolves permissions by role and module.
+- `UserManagementViewModel` supports create/activate/deactivate users and role assignment.
 
-Exports:
+## Excel Compare module
 
-- PDF (iText7)
-- XLSX (EPPlus)
-- CSV (CsvHelper)
+Use-case workflow:
+1. Upload/select File 1 and File 2.
+2. Parse rows into dictionaries keyed by a selected business column.
+3. Compare row-by-row.
+4. Tag status: `Match`, `Difference`, `MissingInFile1`, `MissingInFile2`.
+5. Persist summary + row results.
+6. Export to PDF/Excel/CSV.
 
-## 7) Visual Studio Run Instructions
+## Duty roster module
 
-### Prerequisites
+- Shift types: `General`, `Morning`, `Evening`, `Night`.
+- Table and calendar views should bind to same data source.
+- Validation rule: one assignment per employee per date.
+- Auto-rotation helper to fill schedule ranges.
 
-- Visual Studio 2022/2026 with .NET 10 workload support.
-- SQL Server (Developer/Express/LocalDB).
+## Reports module
 
-### Run API
+- Filters: date range, user, shift, activity/module.
+- Saved reports can be rendered and exported in three formats.
 
-1. Open solution and set `FrontOfficeERP.API` startup.
-2. Update `appsettings.json` connection string and JWT secret.
-3. Execute EF Core migrations:
-   - `Add-Migration InitialCreate`
-   - `Update-Database`
-4. Run API and verify Swagger.
+---
 
-### Run MAUI Client
+## 4) Key starter code snippets
 
-1. Set `FrontOfficeApp` as startup project.
-2. Update API base URL in `Services/ApiClient.cs` if needed.
-3. Build and run on Windows target.
-4. Login and navigate modules from dashboard sidebar.
+### SQLite registration in `MauiProgram.cs`
 
-## 8) Deployment Considerations
+```csharp
+var dbPath = Path.Combine(FileSystem.AppDataDirectory, "frontoffice.db");
+builder.Services.AddDbContext<AppDbContext>(opts =>
+    opts.UseSqlite($"Data Source={dbPath}"));
+```
 
-- Store JWT secret in secure key vault.
-- Use HTTPS only + reverse proxy.
-- Enable SQL backups and retention policy.
-- Add structured logging sink (Serilog/Application Insights).
-- Add CI/CD pipelines with test gates and migration stage.
+### Duty roster uniqueness constraint
+
+```csharp
+modelBuilder.Entity<DutyRoster>()
+    .HasIndex(x => new { x.EmployeeID, x.DutyDate })
+    .IsUnique();
+```
+
+### Permission lookup
+
+```csharp
+public async Task<bool> HasPermissionAsync(int roleId, ModuleType module, PermissionAction action)
+{
+    var permission = await db.Permissions
+        .FirstOrDefaultAsync(p => p.RoleID == roleId && p.Module == module);
+
+    if (permission is null) return false;
+    return action switch
+    {
+        PermissionAction.View => permission.CanView,
+        PermissionAction.Create => permission.CanCreate,
+        PermissionAction.Edit => permission.CanEdit,
+        PermissionAction.Delete => permission.CanDelete,
+        PermissionAction.Export => permission.CanExport,
+        _ => false
+    };
+}
+```
+
+### Export service contract
+
+```csharp
+public interface IExportService
+{
+    Task<string> ExportCsvAsync<T>(IEnumerable<T> rows, string fileName);
+    Task<string> ExportExcelAsync<T>(IEnumerable<T> rows, string fileName);
+    Task<string> ExportPdfAsync(string title, IEnumerable<string> lines, string fileName);
+}
+```
+
+---
+
+## 5) Run instructions in Visual Studio 2022
+
+1. Open `FrontOfficeApp.sln`.
+2. Ensure **.NET MAUI workload** is installed in VS 2022.
+3. Set `FrontOfficeApp` as startup project.
+4. Build and run `net10.0-windows10.0.19041.0` target (or the project target in your environment).
+5. On first launch:
+   - SQLite DB is created.
+   - Seed users/roles/permissions are inserted.
+6. Sign in with seeded admin credentials and verify module navigation.
+
+---
+
+## 6) Enterprise readiness checklist
+
+- Add audit trail table for login and data changes.
+- Add backup/restore utility for local SQLite DB.
+- Add optimistic concurrency (`RowVersion`) for roster edits.
+- Add integration tests for compare and export flows.
+- Add packaging/signing profile for enterprise rollout.

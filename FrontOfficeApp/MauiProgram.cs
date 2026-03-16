@@ -20,8 +20,8 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        var connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=FrontOfficeErpDb;Trusted_Connection=True;TrustServerCertificate=True;";
-        builder.Services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(connectionString));
+        var dbPath = Path.Combine(FileSystem.AppDataDirectory, "frontoffice.db");
+        builder.Services.AddDbContext<AppDbContext>(opts => opts.UseSqlite($"Data Source={dbPath}"));
 
         builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
         builder.Services.AddSingleton<ISessionService, SessionService>();
