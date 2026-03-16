@@ -31,5 +31,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .HasOne(d => d.Employee)
             .WithMany()
             .HasForeignKey(d => d.EmployeeID);
+
+        modelBuilder.Entity<DutyRoster>()
+            .HasIndex(d => new { d.EmployeeID, d.DutyDate })
+            .IsUnique();
     }
 }

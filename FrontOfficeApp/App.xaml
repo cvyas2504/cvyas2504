@@ -6,6 +6,23 @@
         <ResourceDictionary>
             <Color x:Key="Primary">#2563EB</Color>
             <Color x:Key="Surface">#F8FAFC</Color>
+
+            <ControlTemplate x:Key="GlobalPageTemplate">
+                <Grid RowDefinitions="*,Auto">
+                    <ContentPresenter Grid.Row="0" />
+                    <Border Grid.Row="1" StrokeThickness="0" BackgroundColor="#F8FAFC" Padding="8,6">
+                        <Label Text="Copyright © 2026 Develop By Chetan"
+                               HorizontalOptions="Center"
+                               FontSize="12"
+                               TextColor="#64748B" />
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+
+            <Style TargetType="ContentPage">
+                <Setter Property="ControlTemplate" Value="{StaticResource GlobalPageTemplate}" />
+            </Style>
+
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="#0F172A"/>
             </Style>

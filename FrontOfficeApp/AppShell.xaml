@@ -6,6 +6,37 @@
     xmlns:views="clr-namespace:FrontOfficeApp.Views"
     FlyoutBehavior="Flyout">
 
-    <ShellContent ContentTemplate="{DataTemplate views:LoginPage}" Route="login" />
-    <ShellContent ContentTemplate="{DataTemplate views:DashboardPage}" Route="dashboard" />
+    <FlyoutItem Title="Dashboard" Route="dashboard">
+        <ShellContent ContentTemplate="{DataTemplate views:DashboardPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Excel Compare" Route="excel">
+        <ShellContent ContentTemplate="{DataTemplate views:ExcelComparePage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Duty Roster" Route="roster">
+        <ShellContent ContentTemplate="{DataTemplate views:DutyRosterPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Reports" Route="reports">
+        <ShellContent ContentTemplate="{DataTemplate views:ReportsPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Users" Route="users">
+        <ShellContent ContentTemplate="{DataTemplate views:UserManagementPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Employees" Route="employees">
+        <ShellContent ContentTemplate="{DataTemplate views:EmployeesPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Settings" Route="settings">
+        <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="About" Route="about">
+        <ShellContent ContentTemplate="{DataTemplate views:AboutPage}" />
+    </FlyoutItem>
+
+    <ShellContent ContentTemplate="{DataTemplate views:LoginPage}" Route="login" FlyoutItemIsVisible="False" />
 </Shell>
