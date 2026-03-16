@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FrontOfficeApp.Views.UserManagementPage"
+             Title="User Management">
+    <VerticalStackLayout Padding="20" Spacing="12">
+        <Label Text="User Management" FontSize="24" FontAttributes="Bold" />
+        <HorizontalStackLayout Spacing="10">
+            <Entry Placeholder="Search by username" Text="{Binding SearchText}" WidthRequest="260" />
+            <Button Text="Search" Command="{Binding LoadCommand}" />
+        </HorizontalStackLayout>
+
+        <CollectionView ItemsSource="{Binding Users}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="2*,*,*" Padding="8">
+                        <Label Text="{Binding Username}" Grid.Column="0" />
+                        <Label Text="{Binding Role.RoleName}" Grid.Column="1" />
+                        <Label Text="{Binding IsActive}" Grid.Column="2" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

@@ -32,6 +32,7 @@ public static class MauiProgram
         builder.Services.AddScoped<IExcelComparisonService, ExcelComparisonService>();
         builder.Services.AddScoped<IReportService, ReportService>();
         builder.Services.AddScoped<IDataSeeder, DataSeeder>();
+        builder.Services.AddSingleton<IApiClient, ApiClient>();
 
         builder.Services.AddSingleton<AppShell>();
         builder.Services.AddTransient<LoginPage>();
@@ -41,6 +42,8 @@ public static class MauiProgram
         builder.Services.AddTransient<DutyRosterPage>();
         builder.Services.AddTransient<ReportsPage>();
         builder.Services.AddTransient<SettingsPage>();
+        builder.Services.AddTransient<UserManagementPage>();
+        builder.Services.AddTransient<AboutPage>();
 
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<DashboardViewModel>();
@@ -49,6 +52,8 @@ public static class MauiProgram
         builder.Services.AddTransient<DutyRosterViewModel>();
         builder.Services.AddTransient<ReportsViewModel>();
         builder.Services.AddTransient<SettingsViewModel>();
+        builder.Services.AddTransient<UserManagementViewModel>();
+        builder.Services.AddTransient<AboutViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();

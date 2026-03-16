@@ -1,46 +1,40 @@
-# Front Office ERP (Windows Desktop, .NET MAUI + .NET 10)
+# FrontOffice ERP (Enterprise Client-Server Blueprint)
 
-Front Office ERP starter solution built with **.NET MAUI**, **MVVM**, and **SQL Server**.
+This repository now includes a production-style ERP blueprint with:
 
-## Implemented architecture
+- `FrontOfficeApp` - .NET MAUI Desktop Client (MVVM)
+- `FrontOfficeERP.API` - ASP.NET Core Web API backend (layered)
+- `docs/database-schema.sql` - normalized SQL Server schema
+- `docs/FrontOfficeERP-Architecture.md` - architecture and runbook
 
-- Windows-first MAUI target (`net10.0-windows10.0.19041.0`) with layered services.
-- Entity Framework Core with SQL Server provider.
-- Authentication with password hashing and active-user check.
-- Role-Based Access Control (RBAC) with `Roles` + `Permissions` tables.
-- Module-level visibility in dashboard navigation based on role permissions.
-- Async employee, roster, and excel comparison operations.
-- Pagination support for employee listing service.
+## Key capabilities delivered
 
-## Modules included
+- JWT authentication and role-based authorization
+- Controllers/Services/Repositories/DTOs/Models architecture
+- API logging + centralized exception middleware
+- Duty roster duplicate-shift prevention
+- Excel compare detection (added/removed/modified)
+- Dashboard + About footer text:
+  - Copyright © 2026 Develop By Chetan
 
-1. Authentication & User Management (seeded admin/manager/operator users)
-2. Employee Management
-3. Duty Roster (shift codes G/M/E/N/O, auto-rotation, copy previous month)
-4. Excel Compare (`.xlsx`, `.csv` with export to Excel/CSV/PDF)
-5. Reports export service
-6. Dashboard KPIs (employee total + shift counts)
+## Suggested Visual Studio solution layout
 
-## Database entities
+```text
+FrontOfficeERP.API
+ ├── Controllers
+ ├── Services
+ ├── Repositories
+ ├── Models
+ ├── DTOs
+ ├── Middleware
+ └── Data
 
-- Users
-- Roles
-- Permissions
-- Employees
-- DutyRoster
-- ExcelCompareResults
-- Reports
+FrontOfficeERP.Client (implemented as FrontOfficeApp)
+ ├── Views
+ ├── ViewModels
+ ├── Services
+ ├── Models
+ ├── Utilities
+```
 
-## Main libraries
-
-- CommunityToolkit.Mvvm
-- EPPlus
-- CsvHelper
-- iText7
-- EF Core SQL Server
-
-## Seeded credentials
-
-- `admin / Admin@123`
-- `manager / Manager@123`
-- `operator / Operator@123`
+For complete implementation details and startup steps, see `docs/FrontOfficeERP-Architecture.md`.
