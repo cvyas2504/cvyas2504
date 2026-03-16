@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FrontOfficeApp.Views.SettingsPage"
              Title="Settings">
-    <VerticalStackLayout Padding="20">
+    <VerticalStackLayout Padding="20" Spacing="12">
         <Label Text="Settings" FontSize="22" FontAttributes="Bold" />
         <Label Text="Configure roles, session timeout, and application preferences." />
+        <Button Text="About FrontOffice ERP" Clicked="OnAboutClicked" />
     </VerticalStackLayout>
 </ContentPage>

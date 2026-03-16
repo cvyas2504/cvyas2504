@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FrontOfficeApp.Views.AboutPage"
+             Title="About">
+    <VerticalStackLayout Padding="20" Spacing="8">
+        <Label Text="FrontOffice ERP" FontSize="24" FontAttributes="Bold"/>
+        <Label Text="Enterprise desktop ERP for front-office operations."/>
+        <Label Text="Technology: .NET MAUI, ASP.NET Core API, SQL Server"/>
+        <Label Text="Copyright © 2026 Develop By Chetan"
+               Margin="0,20,0,0"
+               FontAttributes="Italic"
+               TextColor="#64748B"/>
+    </VerticalStackLayout>
+</ContentPage>
